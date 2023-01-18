@@ -17,6 +17,7 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import {AppNavigator} from './src/navigation/AppNavigator';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -49,11 +50,7 @@ function Section({children, title}: SectionProps): JSX.Element {
 }
 
 function App(): JSX.Element {
-  return (
-    <View style={{padding: 130}}>
-      <Text>Notes app</Text>
-    </View>
-  );
+  return <AppNavigator />;
 }
 
 const styles = StyleSheet.create({
