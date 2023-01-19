@@ -2,7 +2,11 @@ import React, {useState} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {colors} from '../../styles';
 
-const ButtonSave = ({save}) => {
+interface ButtonSaveProps {
+  save: () => any;
+}
+
+const ButtonSave: React.FC<ButtonSaveProps> = ({save}: ButtonSaveProps) => {
   return (
     <View style={styles.buttonView}>
       <TouchableOpacity onPress={save} style={styles.buttonSave}>

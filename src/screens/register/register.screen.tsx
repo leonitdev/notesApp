@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import ButtonSave from '../../components/buttons/ButtonSave';
 import Input from '../../components/Input';
-import Foundation from 'react-native-vector-icons/Foundation';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Alert} from 'react-native';
 
 const RegisterScreen = (): JSX.Element => {
@@ -20,8 +20,8 @@ const RegisterScreen = (): JSX.Element => {
       <View style={styles.sectionContainer}>
         <Text style={styles.title}>Register Account</Text>
         <View />
-        <Foundation
-          name="clipboard-notes"
+        <Ionicons
+          name="person-outline"
           size={81}
           color="#211F1F"
           style={styles.icon}

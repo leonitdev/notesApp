@@ -2,7 +2,21 @@ import React, {useState} from 'react';
 import {Text, StyleSheet, View, TextInput} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const Input = ({label, placeholder, currentValue, setValue, errorMessge}) => {
+interface InputProps {
+  label: string;
+  placeholder: string;
+  currentValue: string;
+  setValue: (value: string) => void;
+  errorMessge: string;
+}
+
+const Input: React.FC<InputProps> = ({
+  label,
+  placeholder,
+  currentValue,
+  setValue,
+  errorMessge,
+}: InputProps) => {
   return (
     <View style={styles.parentView}>
       <Text style={styles.label}>{label}</Text>

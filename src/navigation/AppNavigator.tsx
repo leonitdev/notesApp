@@ -1,25 +1,18 @@
 import {NavigationContainer} from '@react-navigation/native';
 import React, {useCallback, useEffect, useState} from 'react';
-import {
-  ActivityIndicator,
-  Appearance,
-  SafeAreaView,
-  StatusBar,
-  View,
-} from 'react-native';
+import {ActivityIndicator, StyleSheet, View} from 'react-native';
 import AuthStackNavigator from './AuthStackNavigator';
 import HomeTabNavigator from './HomeTabNavigator';
 
-export const AppNavigator = () => {
-  // set to redux when is network error
-  const [loading, setLoading] = useState(false);
-  const [isAuthenticated, setAuthenticated] = useState(false);
+export const AppNavigator: React.FC<null> = () => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [isAuthenticated, setAuthenticated] = useState<boolean>(false);
 
   useEffect(() => {}, []);
 
   if (loading) {
     return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <View style={styles.activityIndicator}>
         <ActivityIndicator size="large" />
       </View>
     );
@@ -27,7 +20,19 @@ export const AppNavigator = () => {
 
   return (
     <NavigationContainer>
-      {!isAuthenticated ? <AuthStackNavigator /> : <HomeTabNavigator />}
+      {!isAuthenticated ? (
+        <AuthStackNavigator />
+      ) : (
+        <HomeTabNavigator route={undefined} />
+      )}
     </NavigationContainer>
   );
 };
+
+const styles = StyleSheet.create({
+  activityIndicator: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
