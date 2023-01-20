@@ -4,14 +4,24 @@ import ButtonSave from '../../components/buttons/ButtonSave';
 import Input from '../../components/Input';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Alert} from 'react-native';
+import {LocalStorageKey} from '../../constants';
+import {localStorage} from '../../services';
 
-const RegisterScreen = (): JSX.Element => {
+const RegisterScreen = ({}): JSX.Element => {
   const [username, setUsername] = useState<string>('');
   const [hobby, setHobby] = useState<string>('');
   const [error, setError] = useState<string>('');
 
-  const saveUser = () => {
+  const saveUser = async () => {
     Alert.alert(username, hobby);
+    const user = {username, hobby};
+    localStorage.setItem(LocalStorageKey.user, JSON.stringify(user));
+
+    const localStorageUser = await localStorage.getItem(LocalStorageKey.user);
+    if (localStorageUser) {
+      console.log('localStorageUser: ', JSON.parse(localStorageUser));
+    }
+    // navigation.navigate(HOME);
     return true;
   };
 

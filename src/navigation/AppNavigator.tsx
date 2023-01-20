@@ -20,7 +20,7 @@ export const AppNavigator: React.FC<null> = () => {
 
   return (
     <NavigationContainer>
-      {!isAuthenticated ? (
+      {isAuthenticated ? (
         <AuthStackNavigator />
       ) : (
         <HomeTabNavigator route={undefined} />
