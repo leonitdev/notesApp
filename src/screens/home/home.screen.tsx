@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
-import Input from '../../components/Input';
+import Note from '../../components/common/Note';
 import SearchBox from '../../components/SearchBox';
 
 const HomeScreen = (): JSX.Element => {
@@ -13,6 +13,21 @@ const HomeScreen = (): JSX.Element => {
           placeholder="Search a note..."
           value={searchText}
           setValue={setSearchText}
+        />
+        <Note
+          title="Do exercises"
+          description="Working hard not giving up, 15 pushups"
+          tag="Home"
+          createdDate={new Date().toDateString()}
+          imageUri={null}
+        />
+
+        <Note
+          title="Read a book"
+          description="Read 20 pages of the book"
+          tag="Home"
+          createdDate={new Date().toDateString()}
+          imageUri={null}
         />
       </View>
     </ScrollView>

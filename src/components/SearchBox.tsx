@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Text, StyleSheet, View, TextInput} from 'react-native';
+import React from 'react';
+import {StyleSheet, View, TextInput} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 interface InputProps {
@@ -32,6 +32,7 @@ const SearchBox: React.FC<InputProps> = ({
 
 const styles = StyleSheet.create({
   parentView: {
+    backgroundColor: 'white',
     marginBottom: 15,
   },
 
@@ -48,12 +49,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     backgroundColor: '#F2F1F2',
+    borderWidth: 1,
     borderRadius: 5,
     alignItems: 'center',
-    // justifyContent: 'space-between',
     paddingHorizontal: 15,
     marginBottom: 5,
-    borderColor: '#EB483F',
+    borderColor: 'lightgray',
   },
 
   textInput: {
@@ -68,13 +69,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 15,
     color: '#A7A6A7',
-  },
-
-  errorMessage: {
-    color: '#EB483F',
-    fontSize: 12,
-    lineHeight: 18,
-    fontWeight: '400',
   },
 });
 
