@@ -45,7 +45,7 @@ const HomeTabNavigator = ({route}) => {
         options={{
           tabBarLabel: HOME,
           tabBarIcon: ({color, size}) => (
-            <Feather name="home" color={color} size={24} />
+            <Feather name="home" color={color} size={size} />
           ),
         }}
       />
@@ -55,7 +55,7 @@ const HomeTabNavigator = ({route}) => {
         options={{
           tabBarLabel: CREATE_NOTES,
           tabBarIcon: ({color, size}) => (
-            <Ionicons name="add-circle-outline" color={color} size={24} />
+            <Ionicons name="add-circle-outline" color={color} size={size} />
           ),
         }}
       />
