@@ -4,10 +4,11 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Feather from 'react-native-vector-icons/Feather';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {CREATE_NOTES, HOME} from '../constants/screens.constants';
+import {CREATE_NOTES, HOME, TAGS} from '../constants/screens.constants';
 import HomeScreen from '../screens/home/home.screen';
 import {View} from 'react-native';
-import CreateNotes from '../screens/home/create-notes.screen';
+import CreateNotesScreen from '../screens/home/create-notes.screen';
+import TagScreen from '../screens/home/tag.screen';
 
 const Tab = createBottomTabNavigator();
 
@@ -51,11 +52,22 @@ const HomeTabNavigator = ({route}) => {
       />
       <Tab.Screen
         name={CREATE_NOTES}
-        component={CreateNotes}
+        component={CreateNotesScreen}
         options={{
           tabBarLabel: CREATE_NOTES,
           tabBarIcon: ({color, size}) => (
             <Ionicons name="add-circle-outline" color={color} size={size} />
+          ),
+        }}
+      />
+
+      <Tab.Screen
+        name={TAGS}
+        component={TagScreen}
+        options={{
+          tabBarLabel: TAGS,
+          tabBarIcon: ({color, size}) => (
+            <Ionicons name="ios-pricetags-outline" color={color} size={size} />
           ),
         }}
       />

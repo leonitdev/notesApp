@@ -3,7 +3,7 @@ import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import Note from '../../components/common/Note';
 import SearchBox from '../../components/SearchBox';
 
-const HomeScreen = (): JSX.Element => {
+const TagScreen = (): JSX.Element => {
   const [searchText, setSearchText] = useState<string>('');
   const onDeleteNote = () => {
     console.log('called');
@@ -11,29 +11,7 @@ const HomeScreen = (): JSX.Element => {
   return (
     <ScrollView style={styles.scrollViewStyle}>
       <View style={styles.sectionContainer}>
-        <Text style={styles.title}>Notes</Text>
-        <SearchBox
-          placeholder="Search a note..."
-          value={searchText}
-          setValue={setSearchText}
-        />
-        <Note
-          title="Do exercises"
-          description="Working hard not giving up, 15 pushups"
-          tag="Home"
-          createdDate={new Date().toDateString()}
-          imageUri={null}
-          onDeleteNote={onDeleteNote}
-        />
-
-        <Note
-          title="Read a book"
-          description="Read 20 pages of the book"
-          tag="Home"
-          createdDate={new Date().toDateString()}
-          imageUri={null}
-          onDeleteNote={onDeleteNote}
-        />
+        <Text style={styles.title}>Tags screen</Text>
       </View>
     </ScrollView>
   );
@@ -57,4 +35,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default TagScreen;
