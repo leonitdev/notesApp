@@ -1,14 +1,19 @@
 import {NavigationContainer} from '@react-navigation/native';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {ActivityIndicator, StyleSheet, View} from 'react-native';
+import {useSelector, useDispatch} from 'react-redux';
+import {getUserThunk} from '../redux/slices/users';
+import {RootState} from '../redux/store';
 import AuthStackNavigator from './AuthStackNavigator';
 import HomeTabNavigator from './HomeTabNavigator';
 
 export const AppNavigator: React.FC<null> = () => {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [isAuthenticated, setAuthenticated] = useState<boolean>(false);
+  const {user, loading} = useSelector((state: RootState) => state.users);
+  const dispatch = useDispatch();
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    dispatch(getUserThunk());
+  }, []);
 
   if (loading) {
     return (
@@ -20,11 +25,7 @@ export const AppNavigator: React.FC<null> = () => {
 
   return (
     <NavigationContainer>
-      {isAuthenticated ? (
-        <AuthStackNavigator />
-      ) : (
-        <HomeTabNavigator route={undefined} />
-      )}
+      {!user ? <AuthStackNavigator /> : <HomeTabNavigator route={undefined} />}
     </NavigationContainer>
   );
 };

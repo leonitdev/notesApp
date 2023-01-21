@@ -1,29 +1,37 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import ButtonSave from '../../components/buttons/ButtonSave';
 import Input from '../../components/Input';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {Alert} from 'react-native';
-import {LocalStorageKey} from '../../constants';
-import {localStorage} from '../../services';
+import {useDispatch, useSelector} from 'react-redux';
+import {getUserThunk, registerUserThunk} from '../../redux/slices/users';
+import uuid from 'react-native-uuid';
+import {UserModel} from '../../interfaces/models/user.models';
+import {RootState} from '../../redux/store';
+import Toast from 'react-native-toast-message';
 
 const RegisterScreen = ({}): JSX.Element => {
+  const dispatch = useDispatch();
   const [username, setUsername] = useState<string>('');
   const [hobby, setHobby] = useState<string>('');
-  const [error, setError] = useState<string>('');
+  const {error} = useSelector((state: RootState) => state.users);
 
   const saveUser = async () => {
-    Alert.alert(username, hobby);
-    const user = {username, hobby};
-    localStorage.setItem(LocalStorageKey.user, JSON.stringify(user));
-
-    const localStorageUser = await localStorage.getItem(LocalStorageKey.user);
-    if (localStorageUser) {
-      console.log('localStorageUser: ', JSON.parse(localStorageUser));
-    }
-    // navigation.navigate(HOME);
-    return true;
+    const userCreated: UserModel = {
+      id: uuid.v4.toString(),
+      username,
+      hobby,
+    };
+    dispatch(registerUserThunk(userCreated));
   };
+
+  useEffect(() => {
+    Toast.show({
+      type: 'error',
+      text1: 'Error',
+      text2: 'User could not be created!',
+    });
+  }, [error]);
 
   return (
     <ScrollView style={styles.scroller}>
@@ -41,7 +49,6 @@ const RegisterScreen = ({}): JSX.Element => {
           placeholder={'e.g John'}
           currentValue={username}
           setValue={setUsername}
-          errorMessge={error}
         />
 
         <Input
@@ -49,7 +56,6 @@ const RegisterScreen = ({}): JSX.Element => {
           placeholder={'e.g Football'}
           currentValue={hobby}
           setValue={setHobby}
-          errorMessge={error}
         />
 
         <View style={styles.buttonContainer}>

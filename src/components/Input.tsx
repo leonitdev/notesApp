@@ -7,7 +7,6 @@ interface InputProps {
   placeholder: string;
   currentValue: string;
   setValue: (value: string) => void;
-  errorMessge: string;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -15,12 +14,11 @@ const Input: React.FC<InputProps> = ({
   placeholder,
   currentValue,
   setValue,
-  errorMessge,
 }: InputProps) => {
   return (
     <View style={styles.parentView}>
       <Text style={styles.label}>{label}</Text>
-      <View style={[styles.inputView, {borderWidth: errorMessge ? 0.5 : 0}]}>
+      <View style={[styles.inputView]}>
         <TextInput
           onChangeText={value => {
             setValue(value);
@@ -40,7 +38,6 @@ const Input: React.FC<InputProps> = ({
           </View>
         )}
       </View>
-      <Text style={styles.errorMessage}>{errorMessge}</Text>
     </View>
   );
 };

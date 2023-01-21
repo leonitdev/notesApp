@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 import Note from '../../components/common/Note';
 import SearchBox from '../../components/SearchBox';
-import {LocalStorageKey} from '../../constants';
 import {NoteModel} from '../../interfaces/models/note.models';
-import {localStorage} from '../../services';
+import {getUserThunk} from '../../redux/slices/users';
 
 const HomeScreen = (): JSX.Element => {
   const [searchText, setSearchText] = useState<string>('');
@@ -14,6 +14,11 @@ const HomeScreen = (): JSX.Element => {
     console.log('called');
   };
 
+  const dispatch = useDispatch<any>();
+  const {user, loading} = useSelector((state: any) => state.users);
+
+  console.log('user: ', user);
+  console.log('loading: ', loading);
   const renderNotes = () => {
     notes?.map(note => {
       return (
@@ -28,6 +33,7 @@ const HomeScreen = (): JSX.Element => {
   };
 
   useEffect(() => {
+    // dispatch(getUserThunk());
     // (async () => {
     //   const notes = await localStorage.getItem(LocalStorageKey.notes);
     //   if (notes?.length) {

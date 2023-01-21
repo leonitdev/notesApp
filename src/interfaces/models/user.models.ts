@@ -1,5 +1,5 @@
 export interface UserModel {
   id: string;
-  username: boolean;
+  username: string;
   hobby: string;
 }
