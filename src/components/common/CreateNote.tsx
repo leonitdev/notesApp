@@ -1,27 +1,20 @@
 import React, {useState} from 'react';
-import {
-  Text,
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  Alert,
-  TextInput,
-} from 'react-native';
+import {Text, StyleSheet, View, TextInput} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
+import {localStorage} from '../../services';
+import {LocalStorageKey} from '../../constants';
 import ButtonSave from '../buttons/ButtonSave';
+import uuid from 'react-native-uuid';
 
-interface InputProps {
-  title: string;
-  description: string;
-  tag: string;
-  createdDate: string;
-  imageUri: string | null;
-  onDeleteNote: () => void;
-}
+interface InputProps {}
 
 const CreateNote: React.FC<InputProps> = () => {
+  const [title, setTitle] = useState<string>();
+  const [description, setDescription] = useState<string>();
+  const [value, setValue] = useState<string | null>();
+  const [tag, setTag] = useState<string | null>(value);
+
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
 
   // fetch tags
   const [items, setItems] = useState([
@@ -29,17 +22,37 @@ const CreateNote: React.FC<InputProps> = () => {
     {label: 'Invoice', value: 'invoice'},
   ]);
 
+  const saveNote = async () => {
+    const currentNotes = await localStorage.getItem(LocalStorageKey.notes);
+    let newNote = {
+      id: uuid.v4,
+      title,
+      description,
+      tag,
+    };
+    if (currentNotes?.length) {
+      const newNotes = [...currentNotes, newNote];
+      localStorage.setItem(LocalStorageKey.notes, JSON.stringify(newNotes));
+      return;
+    }
+    localStorage.setItem(LocalStorageKey.notes, JSON.stringify([newNote]));
+  };
+
   return (
     <View style={styles.sectionContainer}>
       <View style={styles.textContainer}>
         <View style={styles.inputView}>
           <Text style={styles.inputLabel}>TITLE*</Text>
-          <TextInput style={styles.input} />
+          <TextInput onChangeText={e => setTitle(e)} style={styles.input} />
         </View>
 
         <View style={styles.inputView}>
           <Text style={styles.inputLabel}>DESCRIPTION*</Text>
-          <TextInput style={[styles.input, {height: 60}]} multiline={true} />
+          <TextInput
+            onChangeText={e => setDescription(e)}
+            style={[styles.input, {height: 60}]}
+            multiline={true}
+          />
         </View>
 
         <View style={styles.inputView}>
@@ -61,7 +74,7 @@ const CreateNote: React.FC<InputProps> = () => {
             setOpen={setOpen}
           />
         </View>
-        <ButtonSave />
+        <ButtonSave save={saveNote} />
       </View>
     </View>
   );
