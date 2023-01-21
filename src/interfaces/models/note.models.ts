@@ -4,4 +4,5 @@ export interface NoteModel {
   description: string;
   tag: string;
   createdAt: string;
+  userId: string;
 }

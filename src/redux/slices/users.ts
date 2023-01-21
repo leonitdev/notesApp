@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 export const usersSlice = createSlice({
-  name: 'counter',
+  name: 'users',
   initialState: {value: 0},
   reducers: {
     // add your non-async reducers here
