@@ -32,6 +32,36 @@ export const getUserNotes = async (userId: string) => {
   return [];
 };
 
+export const getUserNotesBySearch = async (
+  userId: string,
+  searchText: string,
+) => {
+  let notes = await localStorage.getItem(LocalStorageKey.notes);
+  if (notes) {
+    let myNotesArray: NoteModel[] = JSON.parse(notes).filter(
+      (note: NoteModel) => note.userId === userId,
+    );
+
+    let matchedNotes: NoteModel[] = [];
+    for (let i = 0; i < myNotesArray.length; i++) {
+      let regex = new RegExp(searchText.toLowerCase() + '.*');
+      let foundMatch = myNotesArray[i].title.toLowerCase().match(regex);
+      if (foundMatch) {
+        matchedNotes.push(myNotesArray[i]);
+        continue;
+      }
+
+      foundMatch = myNotesArray[i].description.toLowerCase().match(regex);
+      if (foundMatch) {
+        matchedNotes.push(myNotesArray[i]);
+        continue;
+      }
+    }
+    return matchedNotes;
+  }
+  return [];
+};
+
 export const deleteNote = async (noteId: string) => {
   const notes = await localStorage.getItem(LocalStorageKey.notes);
   if (notes) {

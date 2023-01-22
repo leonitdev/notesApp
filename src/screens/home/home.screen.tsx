@@ -13,8 +13,6 @@ import {getNotesThunk} from '../../redux/slices/notes';
 import {RootState} from '../../redux/store';
 
 const HomeScreen = (): JSX.Element => {
-  const [searchText, setSearchText] = useState<string>('');
-
   const dispatch = useDispatch();
   const {user} = useSelector((state: RootState) => state.users);
   const {notes, loading, error} = useSelector(
@@ -26,6 +24,13 @@ const HomeScreen = (): JSX.Element => {
   }, []);
 
   const renderNotes = () => {
+    if (!notes.length) {
+      return (
+        <View style={styles.activityIndicator}>
+          <Text>NO NOTES ARE FOUND !</Text>
+        </View>
+      );
+    }
     return notes?.map(note => {
       return (
         <Note
@@ -53,11 +58,7 @@ const HomeScreen = (): JSX.Element => {
     <ScrollView style={styles.scrollViewStyle}>
       <View style={styles.sectionContainer}>
         <Text style={styles.title}>Notes</Text>
-        <SearchBox
-          placeholder="Search a note..."
-          value={searchText}
-          setValue={setSearchText}
-        />
+        <SearchBox placeholder="Search a note..." />
         {renderNotes()}
       </View>
     </ScrollView>

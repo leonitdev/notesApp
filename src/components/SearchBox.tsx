@@ -1,30 +1,36 @@
-import React from 'react';
-import {StyleSheet, View, TextInput} from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet, View, TextInput, TouchableOpacity} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {useDispatch, useSelector} from 'react-redux';
+import {getNotesBySearchThunk} from '../redux/slices/notes';
+import {RootState} from '../redux/store';
 
 interface InputProps {
   placeholder: string;
-  value: string;
-  setValue: (value: string) => void;
 }
 
-const SearchBox: React.FC<InputProps> = ({
-  placeholder,
-  value,
-  setValue,
-}: InputProps) => {
+const SearchBox: React.FC<InputProps> = ({placeholder}: InputProps) => {
+  const dispatch = useDispatch();
+  const {user} = useSelector((state: RootState) => state.users);
+
+  const [searchText, setSearchText] = useState<string>('');
+
+  const searchNotes = () => {
+    dispatch(getNotesBySearchThunk({userId: user.id, searchText}));
+  };
+
   return (
     <View style={styles.parentView}>
       <View style={styles.inputView}>
-        <Ionicons name="search" size={25} color="#211F1F" style={styles.icon} />
         <TextInput
-          onChangeText={value => {
-            setValue(value);
-          }}
-          value={value}
+          onChangeText={setSearchText}
+          value={searchText}
           placeholder={placeholder}
           style={styles.textInput}
         />
+        <TouchableOpacity onPress={searchNotes}>
+          <Ionicons name="search" size={25} style={styles.icon} />
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -55,6 +61,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     marginBottom: 5,
     borderColor: 'lightgray',
+    justifyContent: 'space-between',
   },
 
   textInput: {
@@ -68,7 +75,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     alignSelf: 'center',
     borderRadius: 15,
-    color: '#A7A6A7',
+    color: '#121212',
   },
 });
 

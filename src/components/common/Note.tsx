@@ -12,7 +12,6 @@ interface InputProps {
   tag: string;
   createdDate: string;
   imageUri: string | null;
-  onDeleteNote: () => void;
 }
 
 const Note: React.FC<InputProps> = ({

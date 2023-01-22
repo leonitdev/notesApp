@@ -25,14 +25,6 @@ const RegisterScreen = ({}): JSX.Element => {
     dispatch(registerUserThunk(userCreated));
   };
 
-  useEffect(() => {
-    Toast.show({
-      type: 'error',
-      text1: 'Error',
-      text2: 'User could not be created!',
-    });
-  }, [error]);
-
   return (
     <ScrollView style={styles.scroller}>
       <View style={styles.sectionContainer}>

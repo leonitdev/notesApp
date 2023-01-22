@@ -4,7 +4,13 @@ import {
   createNote,
   deleteNote,
   getUserNotes,
+  getUserNotesBySearch,
 } from '../../services/notes.service';
+
+interface getNotesBySearchParamsType {
+  userId: string;
+  searchText: string;
+}
 
 export const createNoteThunk = createAsyncThunk(
   'note/create',
@@ -25,6 +31,15 @@ export const getNotesThunk = createAsyncThunk(
   'notes/get',
   async (userId: string) => {
     const res: NoteModel[] = await getUserNotes(userId);
+    return res;
+  },
+);
+
+export const getNotesBySearchThunk = createAsyncThunk(
+  'notes/search/get',
+  async ({userId, searchText}: getNotesBySearchParamsType) => {
+    const res: NoteModel[] = await getUserNotesBySearch(userId, searchText);
+    console.log('res: ', res);
     return res;
   },
 );
@@ -71,6 +86,20 @@ export const notesSlice = createSlice({
       state.loading = false;
     });
     builder.addCase(getNotesThunk.rejected, state => {
+      state.loading = false;
+      state.error = true;
+    });
+
+    // ----//
+    builder.addCase(getNotesBySearchThunk.pending, state => {
+      state.loading = true;
+      state.error = false;
+    });
+    builder.addCase(getNotesBySearchThunk.fulfilled, (state, action) => {
+      state.notes = action.payload;
+      state.loading = false;
+    });
+    builder.addCase(getNotesBySearchThunk.rejected, state => {
       state.loading = false;
       state.error = true;
     });
