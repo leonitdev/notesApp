@@ -1,6 +1,6 @@
 export enum LocalStorageKey {
   registered = 'registered',
   notes = 'notes',
-  tags = 'notes',
+  tags = 'tags',
   user = 'user',
 }

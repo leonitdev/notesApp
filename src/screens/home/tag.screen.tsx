@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useDispatch, useSelector} from 'react-redux';
 import Tag from '../../components/common/Tag';
 import CreateTagInput from '../../components/inputs/CreateTagInput';
@@ -19,13 +18,13 @@ const TagScreen = (): JSX.Element => {
   const dispatch = useDispatch();
   const renderTags = () => {
     return tags.map((tag: TagModel) => {
-      return <Tag id={tag.id} name={tag.name} />;
+      return <Tag key={tag.id} id={tag.id} name={tag.name} />;
     });
   };
 
   useEffect(() => {
     dispatch(getTagsThunk());
-  }, []);
+  }, [dispatch]);
 
   return (
     <ScrollView style={styles.scrollViewStyle}>

@@ -24,13 +24,13 @@ const HomeScreen = (): JSX.Element => {
   }, []);
 
   const renderNotes = () => {
-    if (!notes.length) {
-      return (
-        <View style={styles.activityIndicator}>
-          <Text>NO NOTES ARE FOUND !</Text>
-        </View>
-      );
-    }
+    // if (!notes.length) {
+    //   return (
+    //     <View style={styles.activityIndicator}>
+    //       <Text>NO NOTES ARE FOUND !</Text>
+    //     </View>
+    //   );
+    // }
     return notes?.map(note => {
       return (
         <Note

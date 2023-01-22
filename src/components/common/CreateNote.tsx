@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, StyleSheet, View, TextInput} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import ButtonSave from '../buttons/ButtonSave';
@@ -8,29 +8,42 @@ import {useDispatch, useSelector} from 'react-redux';
 import {NoteModel} from '../../interfaces/models/note.models';
 import {RootState} from '../../redux/store';
 import Toast from 'react-native-toast-message';
+import {getTagsThunk} from '../../redux/slices/tags';
 
-interface InputProps {}
-
-const CreateNote: React.FC<InputProps> = () => {
+const CreateNote: React.FC<null> = () => {
   const dispatch = useDispatch();
   const {user} = useSelector((state: RootState) => state.users);
+  const {tags, loading, error} = useSelector((state: RootState) => state.tags);
 
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [value, setValue] = useState<string>('');
   const [open, setOpen] = useState(false);
 
-  // fetch tags
-  const [items, setItems] = useState([
-    {label: 'Home', value: 'home'},
-    {label: 'Invoice', value: 'invoice'},
-  ]);
+  const [items, setItems] = useState([{label: 'Work', value: 'Work'}]);
+
+  useEffect(() => {
+    if (tags.length) {
+      console.log('tags: ', tags);
+      const formattedTags = [...tags].map(tag => {
+        return {
+          label: tag.name,
+          value: tag.name,
+        };
+      });
+      setItems(formattedTags);
+    }
+  }, [tags]);
 
   const resetState = () => {
     setTitle('');
     setDescription('');
     setValue('');
   };
+
+  useEffect(() => {
+    dispatch(getTagsThunk());
+  }, []);
 
   const saveNote = async () => {
     let newNote: NoteModel = {
