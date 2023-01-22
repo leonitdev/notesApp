@@ -114,7 +114,6 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 15,
     backgroundColor: '#FFDD00',
-    flex: 1,
     alignSelf: 'flex-start',
     marginBottom: 15,
   },

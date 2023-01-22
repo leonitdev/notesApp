@@ -23,7 +23,7 @@ const TagScreen = (): JSX.Element => {
   return (
     <ScrollView style={styles.scrollViewStyle}>
       <View style={styles.sectionContainer}>
-        <Text style={styles.title}>Tags screen</Text>
+        <Text style={styles.title}>Tags</Text>
         <CreateTagInput placeholder="Tag name.." />
         <View style={styles.tagContainer}>{renderTags()}</View>
       </View>

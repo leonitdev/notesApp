@@ -15,6 +15,9 @@ import {RootState} from '../../redux/store';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {setGrid, setColumn} from '../../redux/slices/layout-form';
+import {getTagsThunk} from '../../redux/slices/tags';
+import {TagModel} from '../../interfaces/models/tag.models';
+import ActiveTag from '../../components/common/ActiveTag';
 
 const HomeScreen = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -23,10 +26,18 @@ const HomeScreen = (): JSX.Element => {
     (state: RootState) => state.notes,
   );
 
-  const grid = useSelector((state: RootState) => state.layout);
+  const layout = useSelector((state: RootState) => state.layout);
   useEffect(() => {
     dispatch(getNotesThunk(user?.id));
+    dispatch(getTagsThunk());
   }, []);
+
+  const {tags} = useSelector((state: RootState) => state.tags);
+  const renderTags = () => {
+    return tags.map((tag: TagModel) => {
+      return <ActiveTag key={tag.id} id={tag.id} name={tag.name} />;
+    });
+  };
 
   const renderNotes = () => {
     if (!notes.length) {
@@ -64,7 +75,7 @@ const HomeScreen = (): JSX.Element => {
       <View style={styles.sectionContainer}>
         <View style={styles.header}>
           <Text style={styles.title}>Notes</Text>
-          {grid?.value === 'column' && (
+          {layout?.value === 'column' && (
             <TouchableOpacity onPress={() => dispatch(setGrid())}>
               <Text style={{color: 'gray'}}>
                 SET TO: <Feather name="grid" size={30} color="#211F1F" />
@@ -72,7 +83,7 @@ const HomeScreen = (): JSX.Element => {
             </TouchableOpacity>
           )}
 
-          {grid?.value === 'grid' && (
+          {layout?.value === 'grid' && (
             <TouchableOpacity onPress={() => dispatch(setColumn())}>
               <Text>
                 SET TO:{' '}
@@ -86,7 +97,11 @@ const HomeScreen = (): JSX.Element => {
           )}
         </View>
         <SearchBox placeholder="Search a note..." />
-        <View style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
+        <View style={styles.notesContainer}>
+          <View style={styles.tagContainer}>
+            <ActiveTag key={'1'} id={'1'} name={'All'} />
+            {renderTags()}
+          </View>
           {renderNotes()}
         </View>
       </View>
@@ -114,6 +129,19 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+
+  tagContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    flexWrap: 'wrap',
+  },
+
+  notesContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
 
   header: {

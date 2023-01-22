@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     alignItems: 'center',
-    paddingHorizontal: 15,
+    paddingHorizontal: 10,
     marginBottom: 5,
     borderColor: 'lightgray',
     justifyContent: 'space-between',
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '500',
     lineHeight: 18,
-    paddingLeft: 10,
+    paddingLeft: 5,
   },
 
   icon: {

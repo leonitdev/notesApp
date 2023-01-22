@@ -3,6 +3,7 @@ import {NoteModel} from '../../interfaces/models/note.models';
 import {
   createNote,
   deleteNote,
+  filterNotesByTag,
   getUserNotes,
   getUserNotesBySearch,
 } from '../../services/notes.service';
@@ -35,11 +36,23 @@ export const getNotesThunk = createAsyncThunk(
   },
 );
 
+interface FilterNotesByTagParamType {
+  userId: string;
+  tagName: string;
+}
+export const filterNotesByTagThunk = createAsyncThunk(
+  'notes/filter/get',
+  async ({userId, tagName}: FilterNotesByTagParamType) => {
+    const res: NoteModel[] = await filterNotesByTag(userId, tagName);
+    console.log('res: ', res);
+    return res;
+  },
+);
+
 export const getNotesBySearchThunk = createAsyncThunk(
   'notes/search/get',
   async ({userId, searchText}: getNotesBySearchParamsType) => {
     const res: NoteModel[] = await getUserNotesBySearch(userId, searchText);
-    console.log('res: ', res);
     return res;
   },
 );
@@ -100,6 +113,20 @@ export const notesSlice = createSlice({
       state.loading = false;
     });
     builder.addCase(getNotesBySearchThunk.rejected, state => {
+      state.loading = false;
+      state.error = true;
+    });
+
+    // ----//
+    builder.addCase(filterNotesByTagThunk.pending, state => {
+      state.loading = true;
+      state.error = false;
+    });
+    builder.addCase(filterNotesByTagThunk.fulfilled, (state, action) => {
+      state.notes = action.payload;
+      state.loading = false;
+    });
+    builder.addCase(filterNotesByTagThunk.rejected, state => {
       state.loading = false;
       state.error = true;
     });

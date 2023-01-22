@@ -32,6 +32,16 @@ export const getUserNotes = async (userId: string) => {
   return [];
 };
 
+export const filterNotesByTag = async (userId: string, tagName: string) => {
+  const notes = await localStorage.getItem(LocalStorageKey.notes);
+  if (notes) {
+    return JSON.parse(notes).filter(
+      (note: NoteModel) => note.userId === userId && note.tag === tagName,
+    );
+  }
+  return [];
+};
+
 export const getUserNotesBySearch = async (
   userId: string,
   searchText: string,
