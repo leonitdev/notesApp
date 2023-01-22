@@ -1,8 +1,12 @@
 import React, {useState} from 'react';
 import {Text, StyleSheet, View, TouchableOpacity, Alert} from 'react-native';
+import Toast from 'react-native-toast-message';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useDispatch} from 'react-redux';
+import {deleteNotesThunk} from '../../redux/slices/notes';
 
 interface InputProps {
+  id: string;
   title: string;
   description: string;
   tag: string;
@@ -12,13 +16,24 @@ interface InputProps {
 }
 
 const Note: React.FC<InputProps> = ({
+  id,
   title,
   description,
   tag,
   createdDate,
   imageUri,
-  onDeleteNote,
 }: InputProps) => {
+  const dispatch = useDispatch();
+
+  const deleteNote = () => {
+    dispatch(deleteNotesThunk(id));
+    return Toast.show({
+      type: 'success',
+      text1: 'SUCCESS',
+      text2: 'Note is deleted successfully!',
+    });
+  };
+
   return (
     <View style={styles.sectionContainer}>
       <View style={styles.textContainer}>
@@ -32,7 +47,7 @@ const Note: React.FC<InputProps> = ({
         <Text style={styles.createdDate}>{createdDate}</Text>
       </View>
       <View>
-        <TouchableOpacity onPress={() => Alert.alert('Deleted')}>
+        <TouchableOpacity onPress={() => deleteNote()}>
           <MaterialCommunityIcons
             name="delete-alert-outline"
             size={25}
@@ -63,8 +78,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     shadowOpacity: 0.1,
     backgroundColor: '#FFFFFF',
-    // borderTopColor: '#121212',
-    // borderTopWidth: 3,
   },
 
   textContainer: {

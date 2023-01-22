@@ -9,8 +9,6 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import Note from '../../components/common/Note';
 import SearchBox from '../../components/SearchBox';
-import {NoteModel} from '../../interfaces/models/note.models';
-import {UserModel} from '../../interfaces/models/user.models';
 import {getNotesThunk} from '../../redux/slices/notes';
 import {RootState} from '../../redux/store';
 
@@ -24,19 +22,20 @@ const HomeScreen = (): JSX.Element => {
   );
 
   useEffect(() => {
-    console.log('user: ', user);
     dispatch(getNotesThunk(user?.id));
-    console.log('notes: ', notes);
   }, []);
 
   const renderNotes = () => {
-    notes?.map(note => {
+    return notes?.map(note => {
       return (
         <Note
+          key={note.id}
+          id={note.id}
           title={note.title}
           description={note.description}
           tag={note.tag}
           createdDate={note.createdAt}
+          imageUri={null}
         />
       );
     });
@@ -60,14 +59,6 @@ const HomeScreen = (): JSX.Element => {
           setValue={setSearchText}
         />
         {renderNotes()}
-
-        <Note
-          title="Read a book"
-          description="Read 20 pages of the book"
-          tag="Home"
-          createdDate={new Date().toDateString()}
-          imageUri={null}
-        />
       </View>
     </ScrollView>
   );
@@ -81,6 +72,7 @@ const styles = StyleSheet.create({
   },
   sectionContainer: {
     paddingHorizontal: 25,
+    paddingBottom: 80,
   },
 
   title: {

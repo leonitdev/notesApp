@@ -1,6 +1,10 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {NoteModel} from '../../interfaces/models/note.models';
-import {createNote, getUserNotes} from '../../services/notes.service';
+import {
+  createNote,
+  deleteNote,
+  getUserNotes,
+} from '../../services/notes.service';
 
 export const createNoteThunk = createAsyncThunk(
   'note/create',
@@ -13,7 +17,7 @@ export const createNoteThunk = createAsyncThunk(
       createdAt,
       userId,
     });
-    return res as NoteModel;
+    return res as NoteModel[];
   },
 );
 
@@ -21,6 +25,14 @@ export const getNotesThunk = createAsyncThunk(
   'notes/get',
   async (userId: string) => {
     const res: NoteModel[] = await getUserNotes(userId);
+    return res;
+  },
+);
+
+export const deleteNotesThunk = createAsyncThunk(
+  'notes/delete',
+  async (noteId: string) => {
+    const res: NoteModel[] = await deleteNote(noteId);
     return res;
   },
 );
@@ -41,7 +53,7 @@ export const notesSlice = createSlice({
       state.error = false;
     });
     builder.addCase(createNoteThunk.fulfilled, (state, action) => {
-      state.notes.push(action.payload);
+      state.notes = action.payload;
       state.loading = false;
     });
     builder.addCase(createNoteThunk.rejected, state => {
@@ -59,6 +71,20 @@ export const notesSlice = createSlice({
       state.loading = false;
     });
     builder.addCase(getNotesThunk.rejected, state => {
+      state.loading = false;
+      state.error = true;
+    });
+
+    // ----//
+    builder.addCase(deleteNotesThunk.pending, state => {
+      state.loading = true;
+      state.error = false;
+    });
+    builder.addCase(deleteNotesThunk.fulfilled, (state, action) => {
+      state.notes = action.payload;
+      state.loading = false;
+    });
+    builder.addCase(deleteNotesThunk.rejected, state => {
       state.loading = false;
       state.error = true;
     });

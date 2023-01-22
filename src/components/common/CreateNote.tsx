@@ -1,19 +1,23 @@
 import React, {useState} from 'react';
 import {Text, StyleSheet, View, TextInput} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
-import {localStorage} from '../../services';
-import {LocalStorageKey} from '../../constants';
 import ButtonSave from '../buttons/ButtonSave';
 import uuid from 'react-native-uuid';
+import {createNoteThunk} from '../../redux/slices/notes';
+import {useDispatch, useSelector} from 'react-redux';
+import {NoteModel} from '../../interfaces/models/note.models';
+import {RootState} from '../../redux/store';
+import Toast from 'react-native-toast-message';
 
 interface InputProps {}
 
 const CreateNote: React.FC<InputProps> = () => {
-  const [title, setTitle] = useState<string>();
-  const [description, setDescription] = useState<string>();
-  const [value, setValue] = useState<string | null>();
-  const [tag, setTag] = useState<string | null>(value);
+  const dispatch = useDispatch();
+  const {user} = useSelector((state: RootState) => state.users);
 
+  const [title, setTitle] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
+  const [value, setValue] = useState<string>('');
   const [open, setOpen] = useState(false);
 
   // fetch tags
@@ -22,20 +26,29 @@ const CreateNote: React.FC<InputProps> = () => {
     {label: 'Invoice', value: 'invoice'},
   ]);
 
+  const resetState = () => {
+    setTitle('');
+    setDescription('');
+    setValue('');
+  };
+
   const saveNote = async () => {
-    const currentNotes = await localStorage.getItem(LocalStorageKey.notes);
-    let newNote = {
-      id: uuid.v4,
+    let newNote: NoteModel = {
+      id: uuid.v4().toString(),
       title,
       description,
-      tag,
+      tag: value,
+      userId: user?.id,
+      createdAt: new Date().toDateString(),
     };
-    if (currentNotes?.length) {
-      const newNotes = [...currentNotes, newNote];
-      localStorage.setItem(LocalStorageKey.notes, JSON.stringify(newNotes));
-      return;
-    }
-    localStorage.setItem(LocalStorageKey.notes, JSON.stringify([newNote]));
+
+    dispatch(createNoteThunk(newNote));
+    resetState();
+    return Toast.show({
+      type: 'success',
+      text1: 'SUCCESS',
+      text2: 'Note is created successfully!',
+    });
   };
 
   return (
@@ -43,26 +56,31 @@ const CreateNote: React.FC<InputProps> = () => {
       <View style={styles.textContainer}>
         <View style={styles.inputView}>
           <Text style={styles.inputLabel}>TITLE*</Text>
-          <TextInput onChangeText={e => setTitle(e)} style={styles.input} />
+          <TextInput
+            onChangeText={e => setTitle(e)}
+            value={title}
+            style={styles.input}
+          />
         </View>
 
         <View style={styles.inputView}>
           <Text style={styles.inputLabel}>DESCRIPTION*</Text>
           <TextInput
             onChangeText={e => setDescription(e)}
+            value={description}
             style={[styles.input, {height: 60}]}
             multiline={true}
           />
         </View>
 
-        <View style={styles.inputView}>
+        {/* <View style={styles.inputView}>
           <Text style={styles.inputLabel}>Image Picker</Text>
           <TextInput style={styles.input} />
-        </View>
+        </View> */}
         <View
           style={[
             styles.inputView,
-            {height: '100%', flex: 1, borderWidth: 0, marginBottom: 30},
+            {height: '100%', flex: 1, borderWidth: 0, marginBottom: 90},
           ]}>
           <Text style={styles.inputLabel}>TAG*</Text>
           <DropDownPicker
@@ -92,6 +110,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     shadowOpacity: 0.1,
     flex: 1,
+    paddingBottom: 0,
     backgroundColor: '#FFFFFF',
   },
 
