@@ -1,11 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import Tag from '../../components/common/Tag';
 import CreateTagInput from '../../components/inputs/CreateTagInput';

@@ -1,5 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {Text, StyleSheet, View, TextInput} from 'react-native';
+import {
+  Text,
+  StyleSheet,
+  View,
+  TextInput,
+  ActivityIndicator,
+} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import ButtonSave from '../buttons/ButtonSave';
 import uuid from 'react-native-uuid';
@@ -10,7 +16,7 @@ import {RootState} from '../../redux/store';
 import Toast from 'react-native-toast-message';
 import {getTagsThunk} from '../../redux/slices/tags';
 
-const CreateNote: React.FC<null> = () => {
+const CreateNote = () => {
   const dispatch = useDispatch();
   const {user} = useSelector((state: RootState) => state.users);
   const {tags, loading, error} = useSelector((state: RootState) => state.tags);
@@ -63,6 +69,14 @@ const CreateNote: React.FC<null> = () => {
       text2: 'Note is created successfully!',
     });
   };
+
+  if (loading) {
+    return (
+      <View style={styles.activityIndicator}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.sectionContainer}>
@@ -147,6 +161,12 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 8,
     borderColor: 'lightgray',
+  },
+
+  activityIndicator: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

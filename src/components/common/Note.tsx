@@ -2,8 +2,9 @@ import React, {useState} from 'react';
 import {Text, StyleSheet, View, TouchableOpacity, Alert} from 'react-native';
 import Toast from 'react-native-toast-message';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {deleteNotesThunk} from '../../redux/slices/notes';
+import {RootState} from '../../redux/store';
 
 interface InputProps {
   id: string;
@@ -23,6 +24,7 @@ const Note: React.FC<InputProps> = ({
   imageUri,
 }: InputProps) => {
   const dispatch = useDispatch();
+  const grid = useSelector((state: RootState) => state.layout);
 
   const deleteNote = () => {
     dispatch(deleteNotesThunk(id));
@@ -34,7 +36,13 @@ const Note: React.FC<InputProps> = ({
   };
 
   return (
-    <View style={styles.sectionContainer}>
+    <View
+      style={[
+        styles.sectionContainer,
+        {
+          width: grid?.value === 'column' ? '100%' : '50%',
+        },
+      ]}>
       <View style={styles.textContainer}>
         <Text style={styles.noteTitle}>* {title} *</Text>
         <Text style={styles.noteDescription}>{description}</Text>
@@ -74,6 +82,7 @@ const styles = StyleSheet.create({
     borderColor: 'lightgray',
     display: 'flex',
     flexDirection: 'row',
+    width: '50%',
     justifyContent: 'space-between',
     shadowOpacity: 0.1,
     backgroundColor: '#FFFFFF',

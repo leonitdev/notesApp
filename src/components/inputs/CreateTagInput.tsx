@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, TextInput, TouchableOpacity} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {createTagThunk} from '../../redux/slices/tags';
 import uuid from 'react-native-uuid';
+import {Toast} from 'react-native-toast-message/lib/src/Toast';
 
 interface InputProps {
   placeholder: string;
@@ -13,9 +14,14 @@ const SearchBox: React.FC<InputProps> = ({placeholder}: InputProps) => {
   const dispatch = useDispatch();
   const [tagName, setTagName] = useState<string>('');
 
-  const creteTag = () => {
+  const createTag = () => {
     dispatch(createTagThunk({id: uuid.v4().toString(), name: tagName}));
     setTagName('');
+    return Toast.show({
+      type: 'success',
+      text1: 'SUCCESS',
+      text2: 'Tag is created successfully!',
+    });
   };
 
   return (
@@ -27,7 +33,7 @@ const SearchBox: React.FC<InputProps> = ({placeholder}: InputProps) => {
           placeholder={placeholder}
           style={styles.textInput}
         />
-        <TouchableOpacity onPress={creteTag}>
+        <TouchableOpacity onPress={createTag}>
           <Ionicons
             name="md-add-circle-outline"
             size={25}
