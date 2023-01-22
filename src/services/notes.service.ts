@@ -2,28 +2,18 @@ import {LocalStorageKey} from '../constants';
 import {NoteModel} from '../interfaces/models/note.models';
 import {localStorage} from './local-storage';
 
-export const addNote = async (note: NoteModel) => {
-  try {
-    const newNote = await localStorage.setItem(
-      LocalStorageKey.notes,
-      JSON.stringify(note),
-    );
-    return note;
-  } catch (error) {
-    return {error};
-  }
+export const createNote = async (note: NoteModel) => {
+  await localStorage.setItem(LocalStorageKey.notes, JSON.stringify(note));
+  return note;
 };
 
-export const getUserNotes = async () => {
-  try {
-    const notes = await localStorage.getItem(LocalStorageKey.notes);
-    if (notes) {
-      return notes;
-    }
-    return null;
-  } catch (error) {
-    return {error};
+export const getUserNotes = async (userId: string) => {
+  const notes = await localStorage.getItem(LocalStorageKey.notes);
+  if (notes) {
+    return JSON.parse(notes).filter(note => note.userId === userId);
   }
+
+  return [];
 };
 
 export const deleteNote = async (noteId: string) => {

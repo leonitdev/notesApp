@@ -1,24 +1,34 @@
 import React, {useEffect, useState} from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {
+  ActivityIndicator,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import Note from '../../components/common/Note';
 import SearchBox from '../../components/SearchBox';
 import {NoteModel} from '../../interfaces/models/note.models';
-import {getUserThunk} from '../../redux/slices/users';
+import {UserModel} from '../../interfaces/models/user.models';
+import {getNotesThunk} from '../../redux/slices/notes';
+import {RootState} from '../../redux/store';
 
 const HomeScreen = (): JSX.Element => {
   const [searchText, setSearchText] = useState<string>('');
-  // will be fetched from redux..
-  const [notes, setNotes] = useState<NoteModel[] | null>([]);
-  const onDeleteNote = () => {
-    console.log('called');
-  };
 
-  const dispatch = useDispatch<any>();
-  const {user, loading} = useSelector((state: any) => state.users);
+  const dispatch = useDispatch();
+  const {user} = useSelector((state: RootState) => state.users);
+  const {notes, loading, error} = useSelector(
+    (state: RootState) => state.notes,
+  );
 
-  console.log('user: ', user);
-  console.log('loading: ', loading);
+  useEffect(() => {
+    console.log('user: ', user);
+    dispatch(getNotesThunk(user?.id));
+    console.log('notes: ', notes);
+  }, []);
+
   const renderNotes = () => {
     notes?.map(note => {
       return (
@@ -32,16 +42,13 @@ const HomeScreen = (): JSX.Element => {
     });
   };
 
-  useEffect(() => {
-    // dispatch(getUserThunk());
-    // (async () => {
-    //   const notes = await localStorage.getItem(LocalStorageKey.notes);
-    //   if (notes?.length) {
-    //     setNotes(JSON.parse(notes));
-    //     return;
-    //   }
-    // })();
-  }, []);
+  if (loading) {
+    return (
+      <View style={styles.activityIndicator}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
 
   return (
     <ScrollView style={styles.scrollViewStyle}>
@@ -53,14 +60,6 @@ const HomeScreen = (): JSX.Element => {
           setValue={setSearchText}
         />
         {renderNotes()}
-        {/* <Note
-          title="Do exercises"
-          description="Working hard not giving up, 15 pushups"
-          tag="Home"
-          createdDate={new Date().toDateString()}
-          imageUri={null}
-          onDeleteNote={onDeleteNote}
-        /> */}
 
         <Note
           title="Read a book"
@@ -68,7 +67,6 @@ const HomeScreen = (): JSX.Element => {
           tag="Home"
           createdDate={new Date().toDateString()}
           imageUri={null}
-          onDeleteNote={onDeleteNote}
         />
       </View>
     </ScrollView>
@@ -90,6 +88,11 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#121212',
     marginBottom: 20,
+  },
+  activityIndicator: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

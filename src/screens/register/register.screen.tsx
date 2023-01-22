@@ -18,7 +18,7 @@ const RegisterScreen = ({}): JSX.Element => {
 
   const saveUser = async () => {
     const userCreated: UserModel = {
-      id: uuid.v4.toString(),
+      id: uuid.v4().toString(),
       username,
       hobby,
     };

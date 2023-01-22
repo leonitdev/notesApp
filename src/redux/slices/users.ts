@@ -15,9 +15,15 @@ export const getUserThunk = createAsyncThunk('users/get', async () => {
   return res;
 });
 
+interface InitialStateType {
+  user: UserModel;
+  loading: boolean;
+  error: boolean;
+}
+
 export const usersSlice = createSlice({
   name: 'users',
-  initialState: {user: {}, loading: false, error: false},
+  initialState: {user: {}, loading: false, error: false} as InitialStateType,
   reducers: {},
   extraReducers: builder => {
     builder.addCase(registerUserThunk.pending, state => {
@@ -47,42 +53,7 @@ export const usersSlice = createSlice({
       state.error = true;
     });
   },
-  //   extraReducers: builder => {
-  //     // convert to builders
-  //     builder.addCase(registerUserThunk.fulfilled, (state,action: UserModel) => {
-  //         state.loading = true
-  //       })
-
-  //     // [registerUserThunk.fulfilled.toString()]: (state, action: UserModel) => {
-  //     //   state.user = action;
-  //     //   state.loading = false;
-  //     // },
-  //     // [registerUserThunk.pending.toString()]: state => {
-  //     //   state.loading = true;
-  //     // },
-  //     [registerUserThunk.rejected.toString()]: state => {
-  //       state.loading = false;
-  //       state.error = true;
-  //     },
-
-  //     // getUsersThunk
-  //     [getUserThunk.fulfilled.toString()]: (state, action: UserModel) => {
-  //       state.user = action;
-  //       state.loading = false;
-  //     },
-
-  //     [getUserThunk.pending.toString()]: state => {
-  //       state.loading = true;
-  //       state.error = false;
-  //     },
-
-  //     [getUserThunk.rejected.toString()]: state => {
-  //       state.loading = false;
-  //       state.error = true;
-  //     },
-  //   },
 });
 
-// Action creators
 const {reducer} = usersSlice;
 export default reducer;
