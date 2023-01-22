@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import Note from '../../components/common/Note';
-import SearchBox from '../../components/SearchBox';
+import SearchBox from '../../components/inputs/SearchBox';
 import {getNotesThunk} from '../../redux/slices/notes';
 import {RootState} from '../../redux/store';
 

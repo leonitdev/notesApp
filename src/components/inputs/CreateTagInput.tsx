@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import {StyleSheet, View, TextInput, TouchableOpacity} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
-import {getNotesBySearchThunk} from '../redux/slices/notes';
-import {RootState} from '../redux/store';
+import {createTagThunk} from '../../redux/slices/tags';
+import uuid from 'react-native-uuid';
 
 interface InputProps {
   placeholder: string;
@@ -11,25 +11,28 @@ interface InputProps {
 
 const SearchBox: React.FC<InputProps> = ({placeholder}: InputProps) => {
   const dispatch = useDispatch();
-  const {user} = useSelector((state: RootState) => state.users);
+  const [tagName, setTagName] = useState<string>('');
 
-  const [searchText, setSearchText] = useState<string>('');
-
-  const searchNotes = () => {
-    dispatch(getNotesBySearchThunk({userId: user.id, searchText}));
+  const creteTag = () => {
+    dispatch(createTagThunk({id: uuid.v4().toString(), name: tagName}));
+    setTagName('');
   };
 
   return (
     <View style={styles.parentView}>
       <View style={styles.inputView}>
         <TextInput
-          onChangeText={setSearchText}
-          value={searchText}
+          onChangeText={setTagName}
+          value={tagName}
           placeholder={placeholder}
           style={styles.textInput}
         />
-        <TouchableOpacity onPress={searchNotes}>
-          <Ionicons name="search" size={25} style={styles.icon} />
+        <TouchableOpacity onPress={creteTag}>
+          <Ionicons
+            name="md-add-circle-outline"
+            size={25}
+            style={styles.icon}
+          />
         </TouchableOpacity>
       </View>
     </View>

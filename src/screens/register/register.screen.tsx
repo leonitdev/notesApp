@@ -1,14 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import ButtonSave from '../../components/buttons/ButtonSave';
-import Input from '../../components/Input';
+import Input from '../../components/inputs/Input';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
-import {getUserThunk, registerUserThunk} from '../../redux/slices/users';
+import {registerUserThunk} from '../../redux/slices/users';
 import uuid from 'react-native-uuid';
 import {UserModel} from '../../interfaces/models/user.models';
 import {RootState} from '../../redux/store';
-import Toast from 'react-native-toast-message';
 
 const RegisterScreen = ({}): JSX.Element => {
   const dispatch = useDispatch();
