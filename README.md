@@ -47,7 +47,7 @@ This project aims to be a strong foundation for writing Notes. It provides a cle
 # Steps to run the app
 
 1. git clone https://github.com/leonitdev/notesApp.git
-2. go inside the app and write command "npm i" in terminal
+2. Go to project's root folder and run npm install.
 3. go to ios folder and write "pod install"
 4. go back to the root with command "cd .."
 5. run the app with command "react-native run-ios"
