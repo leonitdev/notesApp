@@ -5,6 +5,9 @@ import {
   View,
   TextInput,
   ActivityIndicator,
+  TouchableOpacity,
+  ImageBackground,
+  Image,
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import ButtonSave from '../buttons/ButtonSave';
@@ -15,6 +18,8 @@ import {NoteModel} from '../../interfaces/models/note.models';
 import {RootState} from '../../redux/store';
 import Toast from 'react-native-toast-message';
 import {getTagsThunk} from '../../redux/slices/tags';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import {launchImageLibrary} from 'react-native-image-picker';
 
 const CreateNote = () => {
   const dispatch = useDispatch();
@@ -25,7 +30,7 @@ const CreateNote = () => {
   const [description, setDescription] = useState<string>('');
   const [value, setValue] = useState<string>('');
   const [open, setOpen] = useState(false);
-
+  const [galleryImageURI, setGalleryImageURI] = useState<string>();
   const [items, setItems] = useState([{label: '', value: ''}]);
 
   useEffect(() => {
@@ -44,6 +49,23 @@ const CreateNote = () => {
     setTitle('');
     setDescription('');
     setValue('');
+    setGalleryImageURI('');
+  };
+
+  const openCamera = () => {};
+
+  const openGallery = () => {
+    let options = {
+      noData: true,
+      mediaType: 'photo',
+    };
+
+    launchImageLibrary(options, response => {
+      console.log('response: ', response.assets);
+      if (response.assets) {
+        setGalleryImageURI(response.assets[0].uri);
+      }
+    });
   };
 
   useEffect(() => {
@@ -56,6 +78,7 @@ const CreateNote = () => {
       title,
       description,
       tag: value,
+      imageURI: galleryImageURI ?? '',
       userId: user?.id,
       createdAt: new Date().toDateString(),
     };
@@ -98,10 +121,18 @@ const CreateNote = () => {
         />
       </View>
 
-      {/* <View style={styles.inputView}>
-          <Text style={styles.inputLabel}>Image Picker</Text>
-          <TextInput style={styles.input} />
-        </View> */}
+      <View style={styles.inputView}>
+        <Text style={styles.inputLabel}>Choose an Image</Text>
+        <TouchableOpacity onPress={openGallery}>
+          <Ionicons name="md-image-outline" size={40} color="#211F1F" />
+        </TouchableOpacity>
+        {galleryImageURI && (
+          <Image
+            style={{width: 70, height: 70}}
+            source={{uri: galleryImageURI}}
+          />
+        )}
+      </View>
       <View
         style={[
           styles.inputView,

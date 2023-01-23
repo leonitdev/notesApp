@@ -56,7 +56,7 @@ const HomeScreen = (): JSX.Element => {
           description={note.description}
           tag={note.tag}
           createdDate={note.createdAt}
-          imageUri={null}
+          imageURI={note.imageURI}
         />
       );
     });

@@ -15,11 +15,20 @@ interface getNotesBySearchParamsType {
 
 export const createNoteThunk = createAsyncThunk(
   'note/create',
-  async ({id, title, description, tag, createdAt, userId}: NoteModel) => {
+  async ({
+    id,
+    title,
+    description,
+    tag,
+    createdAt,
+    userId,
+    imageURI,
+  }: NoteModel) => {
     const res = await createNote({
       id,
       title,
       description,
+      imageURI,
       tag,
       createdAt,
       userId,

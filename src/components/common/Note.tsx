@@ -1,28 +1,28 @@
 import React, {useState} from 'react';
-import {Text, StyleSheet, View, TouchableOpacity} from 'react-native';
+import {Text, StyleSheet, View, TouchableOpacity, Image} from 'react-native';
 import Toast from 'react-native-toast-message';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useDispatch, useSelector} from 'react-redux';
 import {deleteNotesThunk} from '../../redux/slices/notes';
 import {RootState} from '../../redux/store';
 
-interface InputProps {
+interface NoteProps {
   id: string;
   title: string;
   description: string;
   tag: string;
   createdDate: string;
-  imageUri: string | null;
+  imageURI: string | null;
 }
 
-const Note: React.FC<InputProps> = ({
+const Note: React.FC<NoteProps> = ({
   id,
   title,
   description,
   tag,
   createdDate,
-  imageUri,
-}: InputProps) => {
+  imageURI,
+}: NoteProps) => {
   const dispatch = useDispatch();
   const grid = useSelector((state: RootState) => state.layout);
 
@@ -46,7 +46,12 @@ const Note: React.FC<InputProps> = ({
       <View style={styles.textContainer}>
         <Text style={styles.noteTitle}>* {title} *</Text>
         <Text style={styles.noteDescription}>{description}</Text>
-
+        {imageURI && (
+          <Image
+            style={{width: 70, height: 70, borderRadius: 15, marginBottom: 15}}
+            source={{uri: imageURI}}
+          />
+        )}
         <View style={styles.noteTagView}>
           <Text style={styles.noteTagText}># {tag}</Text>
         </View>
@@ -62,12 +67,6 @@ const Note: React.FC<InputProps> = ({
             style={styles.deleteIcon}
           />
         </TouchableOpacity>
-
-        {imageUri && (
-          <View style={styles.photoContainer}>
-            <Text>Here photo if it has</Text>
-          </View>
-        )}
       </View>
     </View>
   );

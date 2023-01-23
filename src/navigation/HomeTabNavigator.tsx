@@ -6,20 +6,12 @@ import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {CREATE_NOTES, HOME, TAGS} from '../constants/screens.constants';
 import HomeScreen from '../screens/home/home.screen';
-import {View} from 'react-native';
 import CreateNotesScreen from '../screens/home/create-notes.screen';
 import TagScreen from '../screens/home/tag.screen';
 
 const Tab = createBottomTabNavigator();
 
 const HomeTabNavigator = ({route}) => {
-  const tabBarLabelActiveStyle = {
-    color: '#121212',
-    fontSize: 12,
-    lineHeight: 18,
-    marginBottom: 5,
-  };
-
   const tabBarLabelStyle = {
     fontSize: 12,
     lineHeight: 18,
