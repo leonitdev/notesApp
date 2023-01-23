@@ -24,7 +24,7 @@ const Note: React.FC<NoteProps> = ({
   imageURI,
 }: NoteProps) => {
   const dispatch = useDispatch();
-  const grid = useSelector((state: RootState) => state.layout);
+  const layout = useSelector((state: RootState) => state.layout);
 
   const deleteNote = () => {
     dispatch(deleteNotesThunk(id));
@@ -40,20 +40,23 @@ const Note: React.FC<NoteProps> = ({
       style={[
         styles.sectionContainer,
         {
-          width: grid?.value === 'column' ? '100%' : '48%',
+          width: layout?.value === 'column' ? '100%' : '48%',
         },
       ]}>
       <View style={styles.textContainer}>
         <Text style={styles.noteTitle}>* {title} *</Text>
         <Text style={styles.noteDescription}>{description}</Text>
-        {imageURI && (
-          <Image
-            style={{width: 70, height: 70, borderRadius: 15, marginBottom: 15}}
-            source={{uri: imageURI}}
-          />
-        )}
-        <View style={styles.noteTagView}>
-          <Text style={styles.noteTagText}># {tag}</Text>
+        <View
+          style={[
+            styles.imgAndTagViewContainer,
+            {flexDirection: layout?.value === 'column' ? 'row' : 'column'},
+          ]}>
+          {imageURI && (
+            <Image style={styles.noteImage} source={{uri: imageURI}} />
+          )}
+          <View style={styles.noteTagView}>
+            <Text style={styles.noteTagText}># {tag}</Text>
+          </View>
         </View>
 
         <Text style={styles.createdDate}>{createdDate}</Text>
@@ -109,12 +112,24 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 
+  noteImage: {
+    width: 100,
+    height: 90,
+    borderRadius: 15,
+    marginBottom: 15,
+  },
+
   noteTagView: {
     padding: 10,
     borderRadius: 15,
     backgroundColor: '#FFDD00',
     alignSelf: 'flex-start',
     marginBottom: 15,
+  },
+
+  imgAndTagViewContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
   },
 
   noteTagText: {

@@ -53,7 +53,6 @@ export const filterNotesByTagThunk = createAsyncThunk(
   'notes/filter/get',
   async ({userId, tagName}: FilterNotesByTagParamType) => {
     const res: NoteModel[] = await filterNotesByTag(userId, tagName);
-    console.log('res: ', res);
     return res;
   },
 );

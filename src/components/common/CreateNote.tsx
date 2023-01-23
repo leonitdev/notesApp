@@ -6,7 +6,6 @@ import {
   TextInput,
   ActivityIndicator,
   TouchableOpacity,
-  ImageBackground,
   Image,
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -52,8 +51,6 @@ const CreateNote = () => {
     setGalleryImageURI('');
   };
 
-  const openCamera = () => {};
-
   const openGallery = () => {
     let options = {
       noData: true,
@@ -82,6 +79,14 @@ const CreateNote = () => {
       userId: user?.id,
       createdAt: new Date().toDateString(),
     };
+
+    if (title.length < 2 || !value) {
+      return Toast.show({
+        type: 'error',
+        text1: 'Validation Error',
+        text2: 'Please fill the fields with needed chars length!',
+      });
+    }
 
     dispatch(createNoteThunk(newNote));
     resetState();
