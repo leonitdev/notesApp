@@ -18,7 +18,8 @@ const ButtonSave: React.FC<ButtonSaveProps> = ({save}: ButtonSaveProps) => {
 
 const styles = StyleSheet.create({
   buttonView: {
-    flex: 1,
+    height: 'auto',
+    width: '100%',
   },
   buttonSave: {
     backgroundColor: colors.black,

@@ -26,11 +26,10 @@ const CreateNote = () => {
   const [value, setValue] = useState<string>('');
   const [open, setOpen] = useState(false);
 
-  const [items, setItems] = useState([{label: 'Work', value: 'Work'}]);
+  const [items, setItems] = useState([{label: '', value: ''}]);
 
   useEffect(() => {
     if (tags.length) {
-      console.log('tags: ', tags);
       const formattedTags = [...tags].map(tag => {
         return {
           label: tag.name,
@@ -80,45 +79,45 @@ const CreateNote = () => {
 
   return (
     <View style={styles.sectionContainer}>
-      <View style={styles.textContainer}>
-        <View style={styles.inputView}>
-          <Text style={styles.inputLabel}>TITLE*</Text>
-          <TextInput
-            onChangeText={e => setTitle(e)}
-            value={title}
-            style={styles.input}
-          />
-        </View>
+      <View style={styles.inputView}>
+        <Text style={styles.inputLabel}>TITLE*</Text>
+        <TextInput
+          onChangeText={e => setTitle(e)}
+          value={title}
+          style={styles.input}
+        />
+      </View>
 
-        <View style={styles.inputView}>
-          <Text style={styles.inputLabel}>DESCRIPTION*</Text>
-          <TextInput
-            onChangeText={e => setDescription(e)}
-            value={description}
-            style={[styles.input, {height: 60}]}
-            multiline={true}
-          />
-        </View>
+      <View style={styles.inputView}>
+        <Text style={styles.inputLabel}>DESCRIPTION*</Text>
+        <TextInput
+          onChangeText={e => setDescription(e)}
+          value={description}
+          style={[styles.input, {height: 60}]}
+          multiline={true}
+        />
+      </View>
 
-        {/* <View style={styles.inputView}>
+      {/* <View style={styles.inputView}>
           <Text style={styles.inputLabel}>Image Picker</Text>
           <TextInput style={styles.input} />
         </View> */}
-        <View
-          style={[
-            styles.inputView,
-            {height: '100%', flex: 1, borderWidth: 0, marginBottom: 90},
-          ]}>
-          <Text style={styles.inputLabel}>TAG*</Text>
-          <DropDownPicker
-            open={open}
-            value={value}
-            items={items}
-            setValue={setValue}
-            setItems={setItems}
-            setOpen={setOpen}
-          />
-        </View>
+      <View
+        style={[
+          styles.inputView,
+          {height: '100%', flex: 1, borderWidth: 0, marginBottom: 90},
+        ]}>
+        <Text style={styles.inputLabel}>TAG*</Text>
+        <DropDownPicker
+          open={open}
+          value={value}
+          items={items}
+          setValue={setValue}
+          setItems={setItems}
+          setOpen={setOpen}
+        />
+      </View>
+      <View style={styles.inputView}>
         <ButtonSave save={saveNote} />
       </View>
     </View>
@@ -133,17 +132,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: 'lightgray',
     display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: 'column',
     shadowOpacity: 0.1,
-    flex: 1,
-    paddingBottom: 0,
+    height: '90%',
+    paddingBottom: 20,
     backgroundColor: '#FFFFFF',
-  },
-
-  textContainer: {
-    flex: 3,
-    paddingRight: 10,
   },
 
   inputView: {

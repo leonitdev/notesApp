@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Text, StyleSheet, View, TouchableOpacity, Alert} from 'react-native';
+import {Text, StyleSheet, View, TouchableOpacity} from 'react-native';
 import Toast from 'react-native-toast-message';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useDispatch, useSelector} from 'react-redux';
@@ -40,7 +40,7 @@ const Note: React.FC<InputProps> = ({
       style={[
         styles.sectionContainer,
         {
-          width: grid?.value === 'column' ? '100%' : '50%',
+          width: grid?.value === 'column' ? '100%' : '48%',
         },
       ]}>
       <View style={styles.textContainer}>

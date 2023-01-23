@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import CreateNote from '../../components/common/CreateNote';
 
 const CreateNotesScreen = (): JSX.Element => {
@@ -20,8 +20,9 @@ const styles = StyleSheet.create({
   sectionContainer: {
     paddingHorizontal: 25,
     paddingTop: 80,
+    height: 'auto',
     backgroundColor: 'white',
-    flex: 1,
+    // flex: 1,
     paddingBottom: 20,
   },
 

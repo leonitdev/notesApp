@@ -2,10 +2,8 @@ import {NavigationContainer} from '@react-navigation/native';
 import React, {useEffect} from 'react';
 import {ActivityIndicator, StyleSheet, View} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import {LocalStorageKey} from '../constants';
 import {getUserThunk} from '../redux/slices/users';
 import {RootState} from '../redux/store';
-import {localStorage} from '../services';
 import AuthStackNavigator from './AuthStackNavigator';
 import HomeTabNavigator from './HomeTabNavigator';
 

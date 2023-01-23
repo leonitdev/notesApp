@@ -40,13 +40,13 @@ const HomeScreen = (): JSX.Element => {
   };
 
   const renderNotes = () => {
-    if (!notes.length) {
-      return (
-        <View style={styles.activityIndicator}>
-          <Text>NO NOTES ARE FOUND WITH THIS SEARCH !</Text>
-        </View>
-      );
-    }
+    // if (!notes.length) {
+    //   return (
+    //     <View style={styles.activityIndicator}>
+    //       <Text>NO NOTES ARE FOUND WITH THIS SEARCH !</Text>
+    //     </View>
+    //   );
+    // }
     return notes?.map(note => {
       return (
         <Note
@@ -141,6 +141,7 @@ const styles = StyleSheet.create({
   notesContainer: {
     display: 'flex',
     flexDirection: 'row',
+    justifyContent: 'space-between',
     flexWrap: 'wrap',
   },
 

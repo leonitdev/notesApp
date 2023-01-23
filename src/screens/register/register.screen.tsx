@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import ButtonSave from '../../components/buttons/ButtonSave';
 import Input from '../../components/inputs/Input';
@@ -8,6 +8,7 @@ import {registerUserThunk} from '../../redux/slices/users';
 import uuid from 'react-native-uuid';
 import {UserModel} from '../../interfaces/models/user.models';
 import {RootState} from '../../redux/store';
+import Toast from 'react-native-toast-message';
 
 const RegisterScreen = ({}): JSX.Element => {
   const dispatch = useDispatch();
@@ -21,6 +22,22 @@ const RegisterScreen = ({}): JSX.Element => {
       username,
       hobby,
     };
+
+    if (username.length < 2) {
+      return Toast.show({
+        type: 'error',
+        text1: 'Validation Error',
+        text2: 'Username must have more characters!',
+      });
+    }
+
+    if (hobby.length < 2) {
+      return Toast.show({
+        type: 'error',
+        text1: 'Validation Error',
+        text2: 'Hobby must have more characters!',
+      });
+    }
     dispatch(registerUserThunk(userCreated));
   };
 
@@ -82,11 +99,10 @@ const styles = StyleSheet.create({
   },
 
   buttonContainer: {
-    height: '30%',
-    bottom: 0,
+    height: '25%',
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'flex-end',
+    alignItems: 'center',
   },
 });
 
