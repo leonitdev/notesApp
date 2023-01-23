@@ -51,3 +51,11 @@ This project aims to be a strong foundation for writing Notes. It provides a cle
 3. go to ios folder and write "pod install"
 4. go back to the root with command "cd .."
 5. run the app with command "react-native run-ios"
+
+
+# Screenshoots of the project
+![notes-column-layout](https://user-images.githubusercontent.com/53910673/214062415-4c9df222-029e-49a4-8c34-f9e893e90a6f.png)
+![notes-grid-layout](https://user-images.githubusercontent.com/53910673/214062438-cae8a3d7-bb1e-41b9-8dda-9ff21a6cfc08.png)
+![notes-search](https://user-images.githubusercontent.com/53910673/214062465-77bbd428-0bb0-465c-9c51-244109b09b53.png)
+![create-note-screen](https://user-images.githubusercontent.com/53910673/214062486-169e79b4-f025-4cc4-98e8-33c2f6f3c36a.png)
+![tags](https://user-images.githubusercontent.com/53910673/214062502-1851fac4-8292-480e-8028-1b74b0dd472a.png)
